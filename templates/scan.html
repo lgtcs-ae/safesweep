@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="min-h-screen bg-[#f7f8fb] text-[#182433] antialiased" data-page="{{ page }}" data-default-folders='{{ default_folders_json }}'>
+  <div class="mx-auto flex min-h-screen w-full max-w-[1800px] overflow-hidden bg-white shadow-[0_30px_90px_rgba(36,45,74,0.10)] lg:my-1 lg:rounded-lg lg:border lg:border-[#e3e6ef]">
+    <aside class="hidden w-[300px] shrink-0 border-r border-[#e5e8f1] bg-[#fbfcff] p-7 lg:flex lg:flex-col">
+      <div class="flex items-start gap-3">
+        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#5b46e8] text-lg font-bold text-white shadow-[0_12px_28px_rgba(91,70,232,0.22)]">S</div>
+        <div>
+          <div class="text-xl font-semibold tracking-normal text-[#111827]">SafeSweep</div>
+          <div class="mt-1 text-sm text-[#667085]">Review first. Clean safely.</div>
+        </div>
+      </div>
+
+      <nav class="mt-14 space-y-2 text-base font-semibold">
+        <a class="flex h-12 items-center gap-3 rounded-lg px-3 text-[#344054] hover:bg-white" href="/home">
+          <span class="home-nav-icon">H</span>
+          <span>Home</span>
+        </a>
+        <a class="flex h-12 items-center gap-3 rounded-lg bg-[#f2efff] px-3 text-[#5b46e8]" href="/scan">
+          <span class="home-nav-icon">S</span>
+          <span>Scan</span>
+        </a>
+        <a class="flex h-12 items-center gap-3 rounded-lg px-3 text-[#344054] hover:bg-white" href="/results">
+          <span class="home-nav-icon">R</span>
+          <span>Results</span>
+        </a>
+        <a class="flex h-12 items-center gap-3 rounded-lg px-3 text-[#344054] hover:bg-white" href="/scan">
+          <span class="home-nav-icon">G</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <section class="mt-auto rounded-lg border border-[#d7eadf] bg-[#f7fbf9] p-4 shadow-sm">
+        <div class="flex items-center gap-2 text-sm font-semibold text-[#101828]">
+          <span class="status-dot status-dot-green"></span>
+          Safe by design
+        </div>
+        <ul class="mt-4 space-y-3 text-sm leading-5 text-[#667085]">
+          <li>Scan is read-only</li>
+          <li>Nothing is deleted automatically</li>
+          <li>Files move to Vault only after approval</li>
+          <li>You can restore anytime</li>
+        </ul>
+      </section>
+
+      <section class="mt-5 rounded-lg border border-[#e1e8ed] bg-white p-4 shadow-sm">
+        <div class="flex items-center justify-between text-sm font-semibold text-[#101828]">
+          <span>Need help?</span>
+          <span class="text-[#98a2b3]">?</span>
+        </div>
+      </section>
+    </aside>
+
+    <main class="flex min-w-0 flex-1 flex-col gap-6 bg-[#fbfcff] px-5 py-6 sm:px-8 lg:px-10">
+      <header class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div>
+          <h1 class="text-4xl font-semibold tracking-normal text-[#101828]">Safe Folder Scan</h1>
+          <p class="mt-3 max-w-2xl text-lg leading-7 text-[#667085]">Scan your folders safely. Nothing is moved or deleted.</p>
+        </div>
+        <span id="summary-badge" class="inline-flex h-12 w-fit items-center gap-2 rounded-lg border border-[#e1e6ef] bg-white px-5 text-base font-semibold text-[#344054] shadow-sm">
+          Waiting
+        </span>
+      </header>
+
+      <section class="rounded-lg border border-[#e1e6ef] bg-white shadow-[0_18px_45px_rgba(36,45,74,0.06)]">
+        <div class="p-6">
+          <div class="grid gap-6 xl:grid-cols-[130px_1fr] xl:items-center">
+            <div class="flex justify-center xl:justify-start">
+              <div id="summary-scan-orb" class="scan-orb scan-orb-xl" aria-hidden="true">
+                <span class="scan-orb-core"></span>
+              </div>
+            </div>
+            <div class="min-w-0">
+              <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+                <div>
+                  <h2 id="summary-progress-title" class="text-2xl font-semibold text-[#101828]">Ready to scan</h2>
+                  <p id="summary-progress-subtitle" class="mt-2 text-base leading-6 text-[#667085]">Choose folders, then start the scan.</p>
+                </div>
+                <div class="min-w-0 rounded-lg border border-[#e6ebf2] bg-[#fbfcfe] px-4 py-3 xl:w-[420px]">
+                  <div class="text-xs font-semibold uppercase tracking-normal text-[#667085]">Current file</div>
+                  <div id="summary-progress-path" class="mt-1 truncate text-sm leading-6 text-[#52616f]">No file yet.</div>
+                </div>
+              </div>
+
+              <div class="mt-6 h-2 overflow-hidden rounded-full bg-[#e7edf2]">
+                <div id="summary-progress-bar" class="summary-progress-bar"></div>
+              </div>
+              <div class="mt-3 flex items-center justify-between text-sm text-[#667085]">
+                <span id="summary-progress-counts">0 files scanned</span>
+                <span id="summary-progress-detail">0 hashed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-[#edf1f5] px-6 py-5">
+          <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <article class="scan-stat-block">
+              <div class="home-activity-icon home-action-green">F</div>
+              <div>
+                <div id="summary-files" class="text-3xl font-semibold text-[#101828]">0</div>
+                <div class="mt-1 text-base text-[#667085]">Files scanned</div>
+              </div>
+            </article>
+            <article class="scan-stat-block">
+              <div class="home-activity-icon home-action-blue">H</div>
+              <div>
+                <div id="summary-hashed" class="text-3xl font-semibold text-[#101828]">0</div>
+                <div class="mt-1 text-base text-[#667085]">Hashed</div>
+              </div>
+            </article>
+            <article class="scan-stat-block">
+              <div class="home-activity-icon home-action-purple">D</div>
+              <div>
+                <div id="summary-groups" class="text-3xl font-semibold text-[#101828]">0</div>
+                <div class="mt-1 text-base text-[#667085]">Duplicate groups</div>
+              </div>
+            </article>
+            <article class="scan-stat-block">
+              <div class="home-activity-icon home-action-amber">C</div>
+              <div>
+                <div id="summary-cleanup" class="text-3xl font-semibold text-[#101828]">0</div>
+                <div class="mt-1 text-base text-[#667085]">Cleanup candidates</div>
+              </div>
+            </article>
+          </div>
+
+          <div class="mt-5 grid gap-3 md:grid-cols-3">
+            <div class="rounded-lg border border-[#e6ebf2] bg-[#fbfcfe] p-4">
+              <div class="summary-label">Total size</div>
+              <div id="summary-size" class="mt-2 text-xl font-semibold text-[#101828]">0 B</div>
+            </div>
+            <div class="rounded-lg border border-[#f1d3d0] bg-[#fff7f7] p-4">
+              <div class="summary-label">Skipped items</div>
+              <div id="summary-skipped" class="mt-2 text-xl font-semibold text-[#101828]">0</div>
+            </div>
+            <div class="rounded-lg border border-[#dde3ea] bg-[#f8fafc] p-4">
+              <div class="summary-label">Errors</div>
+              <div id="summary-errors" class="mt-2 text-xl font-semibold text-[#101828]">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="summary-error-list" class="mx-6 mb-6 hidden rounded-lg border border-[#f0c7b6] bg-[#fff6f2] p-3 text-sm text-[#7c3e24]"></div>
+      </section>
+
+      <form id="scan-form" class="rounded-lg border border-[#e1e6ef] bg-white p-6 shadow-[0_18px_45px_rgba(36,45,74,0.06)]">
+        <div class="grid gap-6 xl:grid-cols-[1fr_1px_1fr]">
+          <section>
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h2 class="text-xl font-semibold text-[#101828]">Scan settings</h2>
+                <p class="mt-2 text-sm leading-6 text-[#667085]">Configure the folders SafeSweep should review.</p>
+              </div>
+              <div class="flex gap-2">
+                <button id="use-defaults" type="button" class="h-10 rounded-lg border border-[#d8deea] bg-white px-4 text-sm font-semibold text-[#344054] shadow-sm hover:bg-[#f9fafb]">Use Defaults</button>
+                <button id="select-folder" type="button" class="h-10 rounded-lg border border-[#d8deea] bg-white px-4 text-sm font-semibold text-[#344054] shadow-sm hover:bg-[#f9fafb]">Add Folder</button>
+              </div>
+            </div>
+
+            <label class="mt-6 block text-sm font-semibold text-[#344054]" for="folders-input">Included folders</label>
+            <textarea id="folders-input" class="mt-2 min-h-24 w-full rounded-lg border border-[#d8deea] bg-[#fbfcfe] p-3 font-mono text-sm leading-6 text-[#223242] outline-none transition focus:border-[#5b46e8] focus:ring-4 focus:ring-[#f0edff]" spellcheck="false"></textarea>
+
+            <label class="mt-5 block text-sm font-semibold text-[#344054]" for="excludes-input">Excluded folders</label>
+            <textarea id="excludes-input" class="mt-2 min-h-20 w-full rounded-lg border border-dashed border-[#d8deea] bg-white p-3 font-mono text-sm leading-6 text-[#223242] outline-none transition focus:border-[#5b46e8] focus:ring-4 focus:ring-[#f0edff]" spellcheck="false" placeholder="/path/to/skip"></textarea>
+          </section>
+
+          <div class="hidden bg-[#edf1f5] xl:block"></div>
+
+          <section>
+            <h2 class="text-xl font-semibold text-[#101828]">Scan location</h2>
+            <div class="mt-6 flex items-start gap-4 rounded-lg border border-[#e6ebf2] bg-[#fbfcfe] p-4">
+              <div class="home-activity-icon home-action-green">F</div>
+              <div class="min-w-0 flex-1">
+                <div class="text-xs font-semibold uppercase tracking-normal text-[#667085]">Review folder after scan</div>
+                <div id="summary-folder" class="mt-2 break-words text-sm leading-6 text-[#52616f]">No review folder yet.</div>
+              </div>
+            </div>
+
+            <div class="mt-5 rounded-lg border border-[#e6ebf2] bg-[#fbfcfe] p-4">
+              <div class="text-xs font-semibold uppercase tracking-normal text-[#667085]">Match classes</div>
+              <div id="summary-classifications" class="mt-3 flex flex-wrap gap-2">
+                <span class="exclusion-chip">Confirmed 0</span>
+                <span class="exclusion-chip">Likely 0</span>
+              </div>
+            </div>
+
+            <div class="mt-5 rounded-lg border border-[#d7eadf] bg-[#f7fbf9] p-4">
+              <div class="flex items-center justify-between gap-4">
+                <div>
+                  <div class="text-base font-semibold text-[#245d47]">Include hidden folders</div>
+                  <div class="mt-1 text-sm text-[#577064]">Off by default for safer, quieter scans.</div>
+                </div>
+                <label class="relative inline-flex cursor-pointer items-center">
+                  <input id="include-hidden" type="checkbox" class="peer sr-only">
+                  <div class="h-7 w-12 rounded-full bg-[#c9d5dc] after:absolute after:left-0.5 after:top-0.5 after:h-6 after:w-6 after:rounded-full after:bg-white after:shadow after:transition peer-checked:bg-[#1f9f78] peer-checked:after:translate-x-5"></div>
+                </label>
+              </div>
+            </div>
+
+            <div class="mt-5 rounded-lg border border-[#f0dcaa] bg-[#fffaf0] p-4 text-sm leading-6 text-[#73551d]">
+              This scan is read-only. Nothing will be moved, deleted, or modified without your review and approval.
+            </div>
+          </section>
+        </div>
+
+        <div class="mt-6 grid gap-3 md:grid-cols-[1fr_1fr]">
+          <button id="scan-button" type="submit" class="inline-flex h-14 items-center justify-center rounded-lg bg-[#1f9f78] px-5 text-base font-semibold text-white shadow-[0_14px_30px_rgba(31,159,120,0.22)] hover:bg-[#168764] disabled:cursor-not-allowed disabled:opacity-60">Start Safe Review Scan</button>
+          <button id="scan-stop" type="button" class="hidden h-14 items-center justify-center rounded-lg border border-[#d8deea] bg-white px-5 text-base font-semibold text-[#344054] shadow-sm hover:bg-[#f9fafb]">Stop Scan</button>
+          <a id="scan-results-link" class="hidden h-14 items-center justify-center rounded-lg border border-[#d8deea] bg-white px-5 text-base font-semibold text-[#344054] shadow-sm hover:bg-[#f9fafb]" href="/results">View Results</a>
+        </div>
+
+        <div class="mt-4 rounded-lg border border-[#e6ebf2] bg-[#fbfcff] p-4">
+          <div class="flex items-start gap-3">
+            <span id="scan-status-indicator" class="scan-status-indicator mt-1" aria-hidden="true"></span>
+            <div>
+              <div id="scan-status" class="text-sm font-semibold text-[#516273]">Ready to scan</div>
+              <div id="scan-status-detail" class="mt-1 text-sm text-[#7a8698]">Choose folders, then start the scan.</div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <section class="rounded-lg border border-[#e1e6ef] bg-white p-5 shadow-[0_18px_45px_rgba(36,45,74,0.06)]">
+        <h2 class="text-lg font-semibold text-[#101828]">What happens next?</h2>
+        <div class="mt-4 grid gap-4 md:grid-cols-3">
+          <div class="flex items-start gap-3 rounded-lg border border-[#e8ecf3] bg-[#fbfcfe] p-4">
+            <div class="home-activity-icon home-action-purple">1</div>
+            <div>
+              <div class="font-semibold text-[#132231]">Review candidates</div>
+              <div class="mt-1 text-sm leading-5 text-[#657382]">We show duplicate candidates and cleanup signals.</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 rounded-lg border border-[#e8ecf3] bg-[#fbfcfe] p-4">
+            <div class="home-activity-icon home-action-green">2</div>
+            <div>
+              <div class="font-semibold text-[#132231]">Approve actions</div>
+              <div class="mt-1 text-sm leading-5 text-[#657382]">You choose what moves into the Vault.</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3 rounded-lg border border-[#e8ecf3] bg-[#fbfcfe] p-4">
+            <div class="home-activity-icon home-action-blue">3</div>
+            <div>
+              <div class="font-semibold text-[#132231]">Safe storage</div>
+              <div class="mt-1 text-sm leading-5 text-[#657382]">Vault files remain recoverable until permanent sweep.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="permission-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#132231]/35 px-4">
+    <section class="w-full max-w-lg rounded-lg border border-[#dce4ea] bg-white p-5 shadow-[0_28px_80px_rgba(22,34,46,0.22)]">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <div class="text-sm font-semibold text-[#955f14]">Folder access needed</div>
+          <h2 class="mt-1 text-xl font-semibold text-[#132231]">SafeSweep could not scan a selected folder</h2>
+        </div>
+        <button id="permission-close" class="h-9 w-9 rounded-md border border-[#cfdbe2] bg-white text-sm font-semibold text-[#52616f] hover:bg-[#f6f8f9]" type="button">x</button>
+      </div>
+      <p class="mt-3 text-sm leading-6 text-[#52616f]">
+        macOS blocked access to one or more folders. Open Privacy settings, grant access to Terminal, your IDE, or Python, then restart SafeSweep and scan again.
+      </p>
+      <div id="permission-paths" class="mt-4 max-h-32 overflow-auto rounded-lg border border-[#f0c7b6] bg-[#fff6f2] p-3 font-mono text-xs text-[#7c3e24]"></div>
+      <div class="mt-5 flex flex-wrap justify-end gap-2">
+        <button id="permission-dismiss" class="h-10 rounded-md border border-[#cfdbe2] bg-white px-4 text-sm font-semibold text-[#243445] hover:bg-[#f6f8f9]" type="button">Later</button>
+        <button id="permission-open-settings" class="h-10 rounded-md bg-[#158460] px-4 text-sm font-semibold text-white shadow-[0_12px_26px_rgba(21,132,96,0.18)] hover:bg-[#0f6f51]" type="button">Open Privacy Settings</button>
+      </div>
+    </section>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

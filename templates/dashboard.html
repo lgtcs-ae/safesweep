@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="min-h-screen bg-[#f7f8fb] text-[#182433] antialiased" data-page="{{ page }}">
+  <div class="mx-auto flex min-h-screen w-full max-w-[1800px] overflow-hidden bg-white shadow-[0_30px_90px_rgba(36,45,74,0.10)] lg:my-1 lg:rounded-lg lg:border lg:border-[#e3e6ef]">
+    <aside class="hidden w-[300px] shrink-0 border-r border-[#e5e8f1] bg-[#fbfcff] p-7 lg:flex lg:flex-col">
+      <div class="flex items-start gap-3">
+        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#5b46e8] text-lg font-bold text-white shadow-[0_12px_28px_rgba(91,70,232,0.22)]">S</div>
+        <div>
+          <div class="text-xl font-semibold tracking-normal text-[#111827]">SafeSweep</div>
+          <div class="mt-1 text-sm text-[#667085]">Review first. Clean safely.</div>
+        </div>
+      </div>
+
+      <nav class="mt-14 space-y-2 text-base font-semibold">
+        <a class="flex h-12 items-center gap-3 rounded-lg bg-[#f2efff] px-3 text-[#5b46e8]" href="/home">
+          <span class="home-nav-icon">H</span>
+          <span>Home</span>
+        </a>
+        <a class="flex h-12 items-center gap-3 rounded-lg px-3 text-[#344054] hover:bg-white" href="/scan">
+          <span class="home-nav-icon">S</span>
+          <span>Scan</span>
+        </a>
+        <a class="flex h-12 items-center gap-3 rounded-lg px-3 text-[#344054] hover:bg-white" href="/results">
+          <span class="home-nav-icon">R</span>
+          <span>Results</span>
+        </a>
+        <a class="flex h-12 items-center gap-3 rounded-lg px-3 text-[#344054] hover:bg-white" href="/scan">
+          <span class="home-nav-icon">G</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <section class="mt-auto rounded-lg border border-[#e1e8ed] bg-white p-4 shadow-sm">
+        <div class="flex items-center gap-2 text-sm font-semibold text-[#101828]">
+          <span class="status-dot status-dot-green"></span>
+          Safe by design
+        </div>
+        <ul class="mt-4 space-y-3 text-sm leading-5 text-[#667085]">
+          <li>Scan is read-only</li>
+          <li>Nothing is deleted automatically</li>
+          <li>Approved files move to Vault first</li>
+          <li>You can restore anytime</li>
+        </ul>
+      </section>
+
+      <section class="mt-5 rounded-lg border border-[#e1e8ed] bg-white p-4 shadow-sm">
+        <div class="flex items-center gap-2 text-sm font-semibold text-[#101828]">
+          <span class="home-clock">T</span>
+          Last scan
+        </div>
+        <div id="latest-subtitle" class="mt-4 text-sm text-[#667085]">No scan yet.</div>
+        <div id="latest-dashboard-summary" class="mt-2 text-sm text-[#667085]">Run a scan to see activity.</div>
+        <a class="mt-4 inline-flex items-center text-sm font-semibold text-[#5b46e8]" href="/scan">View scan details</a>
+      </section>
+    </aside>
+
+    <main class="flex min-w-0 flex-1 flex-col gap-6 bg-[#fbfcff] px-5 py-6 sm:px-8 lg:px-10">
+      <div class="flex justify-end">
+        <span id="system-health-pill" class="inline-flex h-11 items-center gap-2 rounded-lg border border-[#e1e6ef] bg-white px-4 text-sm font-semibold text-[#344054] shadow-sm">
+          <span class="status-dot status-dot-green"></span>
+          System healthy
+        </span>
+      </div>
+
+      <section class="home-hero rounded-lg border border-[#e0dbff] bg-white p-8 shadow-[0_18px_45px_rgba(36,45,74,0.06)]">
+        <div class="grid min-h-[360px] gap-6 lg:grid-cols-[1fr_420px] lg:items-center">
+          <div class="max-w-2xl">
+            <h1 class="text-4xl font-semibold tracking-normal text-[#101828]">Welcome to SafeSweep</h1>
+            <p class="mt-4 text-lg leading-8 text-[#667085]">
+              Find and clean duplicate files safely.<br>
+              You're always in control.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a class="inline-flex h-12 items-center justify-center rounded-lg bg-[#5b46e8] px-5 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(91,70,232,0.22)] hover:bg-[#4e3fd1]" href="/scan">Start New Scan</a>
+              <a id="dashboard-results-link" class="hidden h-12 items-center justify-center rounded-lg border border-[#d8deea] bg-white px-5 text-sm font-semibold text-[#344054] shadow-sm hover:bg-[#f9fafb]" href="/results">Review Results</a>
+            </div>
+          </div>
+          <div class="home-hero-art" aria-hidden="true">
+            <div class="home-art-card home-art-card-left">IMG</div>
+            <div class="home-art-card home-art-card-top">VID</div>
+            <div class="home-art-card home-art-card-right">TXT</div>
+            <div class="home-art-folder">
+              <div class="home-art-shield">S</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="rounded-lg border border-[#e1e6ef] bg-white p-6 shadow-[0_18px_45px_rgba(36,45,74,0.06)]">
+        <h2 class="text-xl font-semibold text-[#101828]">What would you like to do?</h2>
+        <div class="mt-6 grid gap-5 xl:grid-cols-3">
+          <a class="home-action-card" href="/scan">
+            <div class="home-action-icon home-action-purple">Q</div>
+            <div>
+              <div class="text-lg font-semibold text-[#101828]">Scan Folders</div>
+              <p class="mt-2 text-base leading-7 text-[#667085]">Choose folders and run a safe, read-only scan to find duplicates.</p>
+              <div class="mt-5 text-base font-semibold text-[#5b46e8]">Start Scan -></div>
+            </div>
+          </a>
+          <a class="home-action-card" href="/results">
+            <div class="home-action-icon home-action-green">L</div>
+            <div>
+              <div class="text-lg font-semibold text-[#101828]">Review Results</div>
+              <p class="mt-2 text-base leading-7 text-[#667085]">Review duplicate groups and decide what should move to the Vault.</p>
+              <div class="mt-5 text-base font-semibold text-[#5b46e8]">View Results -></div>
+            </div>
+          </a>
+          <a class="home-action-card" href="/results?status=moved">
+            <div class="home-action-icon home-action-amber">V</div>
+            <div>
+              <div class="text-lg font-semibold text-[#101828]">Vault & Restore</div>
+              <p class="mt-2 text-base leading-7 text-[#667085]">View files in the Vault. Restore or permanently clean them anytime.</p>
+              <div class="mt-5 text-base font-semibold text-[#5b46e8]">Open Vault -></div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="rounded-lg border border-[#e1e6ef] bg-white p-6 shadow-[0_18px_45px_rgba(36,45,74,0.06)]">
+        <h2 class="text-xl font-semibold text-[#101828]">Recent activity</h2>
+        <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <article class="home-activity-card">
+            <div class="home-activity-icon home-action-purple">S</div>
+            <div>
+              <div class="text-sm font-semibold text-[#101828]">Last scan</div>
+              <div id="latest-review-folder" class="mt-1 text-sm leading-5 text-[#667085]">No scan yet</div>
+            </div>
+          </article>
+          <article class="home-activity-card">
+            <div class="home-activity-icon home-action-green">D</div>
+            <div>
+              <div class="text-sm font-semibold text-[#101828]">Duplicate groups</div>
+              <div class="mt-1 text-sm leading-5 text-[#667085]"><span id="metric-review-groups">0</span> groups</div>
+              <div class="text-sm leading-5 text-[#667085]">Ready for review</div>
+            </div>
+          </article>
+          <article class="home-activity-card">
+            <div class="home-activity-icon home-action-amber">V</div>
+            <div>
+              <div class="text-sm font-semibold text-[#101828]">Vault size</div>
+              <div id="metric-vault" class="mt-1 text-sm leading-5 text-[#667085]">0 B</div>
+              <div class="text-sm leading-5 text-[#667085]">Approved duplicates</div>
+            </div>
+          </article>
+          <article class="home-activity-card">
+            <div class="home-activity-icon home-action-blue">C</div>
+            <div>
+              <div class="text-sm font-semibold text-[#101828]">Last vault cleanup</div>
+              <div class="mt-1 text-sm leading-5 text-[#667085]">No cleanup yet</div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div class="hidden">
+        <span id="metric-files">0</span>
+        <span id="metric-confirmed">0</span>
+        <span id="metric-likely">0</span>
+        <span id="metric-vault-size-label">0 B</span>
+        <div id="extension-list"></div>
+      </div>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
