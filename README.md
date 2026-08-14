@@ -1,14 +1,19 @@
-# SafeSweep - Free Safe Duplicate File Cleaner for Mac
+# SafeSweep — Privacy-First Duplicate File Finder for macOS
 
-**Clean duplicate files without fear.**
+**Find duplicate files. Review everything. Clean safely.**
 
-SafeSweep is a free, local-first duplicate file cleaner for Mac that helps you scan folders safely, review duplicate file candidates, and move approved files to a recoverable Vault.
+SafeSweep is a privacy-first, local-first duplicate file finder and disk cleanup app for macOS. It scans selected folders locally, uses SHA-256 verification for confirmed duplicates, lets you review candidates before taking action, and moves approved files to a recoverable Vault.
 
-Nothing is deleted automatically.
-Your files stay on your computer.
-You review everything before cleanup.
+**Nothing is deleted automatically. Your files stay on your Mac. You stay in control.**
 
-> Free at this moment while SafeSweep is in early beta.
+> **Early Beta:** SafeSweep is currently free while in early beta.
+
+[🌐 Website](https://www.lgtcs.ae/safesweep/) · [⬇️ Download Latest Beta](https://github.com/lgtcs-ae/safesweep/releases/latest) · [🐛 Report a Bug](https://github.com/lgtcs-ae/safesweep/issues)
+
+![macOS](https://img.shields.io/badge/platform-macOS-lightgrey)
+![Python](https://img.shields.io/badge/python-3.x-blue)
+![Beta](https://img.shields.io/badge/status-early%20beta-orange)
+![Privacy](https://img.shields.io/badge/privacy-local--first-brightgreen)
 
 ## Why SafeSweep?
 
